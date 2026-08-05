@@ -1,0 +1,30 @@
+﻿using FootballAnalysis.Data.Application.Common.ValueObjects;
+using FootballAnalysis.Data.Application.DTOs.Match;
+using FootballAnalysis.Data.Application.DTOs.Player;
+using FootballAnalysis.Data.Application.DTOs.Team;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace FootballAnalysis.Data.Application.DTOs.PlayerMatchStats
+{
+    public record GetPlayerMatchStatsDTO(
+        Guid Id,
+        GetMatchDTO Match,
+        GetPlayerDTO Player,
+        GetTeamDTO Team,
+        bool Started,
+        bool WasSubstitutedOn,
+        bool WasSubstitutedOff,
+        bool IsCaptain,
+        bool IsManOfTheMatch,
+        PlayerAnalysis? Analysis,
+        PlayerStats PlayerStats,
+        PlayerAttack PlayerAttack,
+        PlayerPasses PlayerPasses,
+        PlayerDefence PlayerDefence,
+        PlayerDuels PlayerDuels,
+        Goalkeepering Goalkeepering,
+        PlayerDiscipline PlayerDiscipline
+    );
+}
