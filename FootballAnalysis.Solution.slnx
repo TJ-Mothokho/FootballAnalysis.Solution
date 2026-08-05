@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FootballAnalysis.API/FootballAnalysis.API.csproj" />
+  <Project Path="FootballAnalysis.Data/FootballAnalysis.Data.csproj" />
+</Solution>
