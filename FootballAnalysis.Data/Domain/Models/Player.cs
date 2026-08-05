@@ -6,15 +6,14 @@ namespace FootballAnalysis.Data.Domain.Models
 {
     public class Player
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string FirstName { get; set; } = "";
 
         public string LastName { get; set; } = "";
 
-        public string FullName { get; set; } = "";
-
         public string Position { get; set; } = "";
+        public List<string>? AlternativePositions { get; set; }
 
         public int ShirtNumber { get; set; }
 
@@ -26,7 +25,7 @@ namespace FootballAnalysis.Data.Domain.Models
 
         public bool IsActive { get; set; }
 
-        public int TeamId { get; set; }
+        public Guid TeamId { get; set; }
 
         public Team Team { get; set; } = null!;
 

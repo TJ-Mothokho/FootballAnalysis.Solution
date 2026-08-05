@@ -13,19 +13,21 @@ namespace FootballAnalysis.Data.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+            var _entity = await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
+            return _entity.Entity;
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
             if (entity == null)
@@ -33,6 +35,7 @@ namespace FootballAnalysis.Data.Infrastructure.Repositories
 
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<T> GetAsync(object id)
@@ -47,10 +50,11 @@ namespace FootballAnalysis.Data.Infrastructure.Repositories
             return entities ?? throw new KeyNotFoundException($"No entities of type {typeof(T).Name} found.");
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
-            _context.Set<T>().Update(entity);
+            var _entity = _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
+            return _entity.Entity;
         }
     }
 }

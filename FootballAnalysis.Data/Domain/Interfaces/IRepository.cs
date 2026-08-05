@@ -8,9 +8,9 @@ namespace FootballAnalysis.Data.Domain.Interfaces
     {
         Task<IEnumerable<T>> ListAsync();
         Task<T> GetAsync(object id);
-        Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity); 
-        Task DeleteAsync(object id);
+        Task<T> AddAsync(T entity);
+        Task<T> UpdateAsync(T entity);
+        Task<bool> DeleteAsync(T entity); 
+        Task<bool> DeleteAsync(object id);
     }
 }
