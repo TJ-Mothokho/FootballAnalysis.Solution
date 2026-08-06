@@ -21,7 +21,7 @@ namespace FootballAnalysis.Data.Application.Services
             _competitionRepository = competitionRepository;
         }
 
-        public async Task<GetCompetitionDTO> CreateCompetitionAsync(CreateCompetitionDTO competitionDto)
+        public async Task<GetCompetitionDTO> CreateAsync(CreateCompetitionDTO competitionDto)
         {
             try
             {
@@ -30,7 +30,10 @@ namespace FootballAnalysis.Data.Application.Services
                 var validationResult = await createValidator.ValidateAsync(competitionDto);
 
                 if (!validationResult.IsValid)
+                {
+                    LogException.LogExceptions(new ValidationException("Invalid competition data.", validationResult.Errors));
                     throw new ValidationException("Invalid competition data.", validationResult.Errors);
+                }
 
                 // Create a new Competition entity from the DTO
                 var competition = new Competition
@@ -57,7 +60,7 @@ namespace FootballAnalysis.Data.Application.Services
             }
         }
 
-        public async Task<bool> DeleteCompetitionAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             try
             {
@@ -80,7 +83,7 @@ namespace FootballAnalysis.Data.Application.Services
             }
         }
 
-        public async Task<IEnumerable<GetCompetitionDTO>> GetAllCompetitionsAsync()
+        public async Task<IEnumerable<GetCompetitionDTO>> GetAllAsync()
         {
             try
             {
@@ -98,7 +101,7 @@ namespace FootballAnalysis.Data.Application.Services
             }
         }
 
-        public async Task<GetCompetitionDTO> GetCompetitionByIdAsync(Guid id)
+        public async Task<GetCompetitionDTO> GetByIdAsync(Guid id)
         {
             try
             {
@@ -123,7 +126,7 @@ namespace FootballAnalysis.Data.Application.Services
             }
         }
 
-        public async Task<GetCompetitionDTO> UpdateCompetitionAsync(Guid id, UpdateCompetitionDTO competitionDto)
+        public async Task<GetCompetitionDTO> UpdateAsync(Guid id, UpdateCompetitionDTO competitionDto)
         {
             try
             {
@@ -132,7 +135,10 @@ namespace FootballAnalysis.Data.Application.Services
                 var validationResult = await updateValidator.ValidateAsync(competitionDto);
 
                 if (!validationResult.IsValid)
+                {
+                    LogException.LogExceptions(new ValidationException("Invalid competition data.", validationResult.Errors));
                     throw new ValidationException("Invalid competition data.", validationResult.Errors);
+                }
 
                 // Find the existing competition by ID
                 var existingCompetition = await _competitionRepository.GetAsync(id);
@@ -145,8 +151,8 @@ namespace FootballAnalysis.Data.Application.Services
                 }
 
                 // Update the competition's properties
-                existingCompetition.Name = competitionDto.Name;
-                existingCompetition.Country = competitionDto.Country;
+                existingCompetition.Name = competitionDto.Name ?? existingCompetition.Name;
+                existingCompetition.Country = competitionDto.Country ?? existingCompetition.Country;
 
                 // Save the updated competition to the repository
                 var updatedCompetition = await _competitionRepository.UpdateAsync(existingCompetition);
