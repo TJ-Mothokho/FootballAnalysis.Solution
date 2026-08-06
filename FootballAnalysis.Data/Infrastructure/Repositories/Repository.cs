@@ -20,6 +20,18 @@ namespace FootballAnalysis.Data.Infrastructure.Repositories
             return _entity.Entity;
         }
 
+        public async Task<T> AnyAsync(Func<T, bool> predicate)
+        {
+            var entities = await ListAsync();
+            return entities.FirstOrDefault(predicate)!;
+        }
+
+        public async Task<IEnumerable<T>> AnyListAsync(Func<T, bool> predicate)
+        {
+            var entities = await ListAsync();
+            return entities.Where(predicate);
+        }
+
         public async Task<bool> DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
