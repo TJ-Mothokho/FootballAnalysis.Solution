@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FootballAnalysis.Data.Application.DTOs.Match
 {
-    record UpdateMatchDTO(
+    public record UpdateMatchDTO(
        DateTime KickOff,
        string Venue,
        string Referee,

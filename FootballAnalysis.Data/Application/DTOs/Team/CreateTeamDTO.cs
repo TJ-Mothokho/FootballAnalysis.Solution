@@ -9,6 +9,7 @@ namespace FootballAnalysis.Data.Application.DTOs.Team
         string ShortName,
         string Stadium,
         string City,
+        int FoundedYear,
         string Coach,
         Guid? Captain,
         string? PreferredFormation,

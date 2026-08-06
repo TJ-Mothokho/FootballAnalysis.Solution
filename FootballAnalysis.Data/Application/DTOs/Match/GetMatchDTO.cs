@@ -16,9 +16,9 @@ namespace FootballAnalysis.Data.Application.DTOs.Match
         int HomeGoals,
         int AwayGoals,
         string Status,
-        GetTeamDTO HomeTeamId,
-        GetTeamDTO AwayTeamId,
-        GetCompetitionDTO CompetitionId,
-        GetSeasonDTO SeasonId
+        GetTeamDTO HomeTeam,
+        GetTeamDTO AwayTeam,
+        GetCompetitionDTO Competition,
+        GetSeasonDTO Season
     );
 }
