@@ -21,7 +21,7 @@ namespace FootballAnalysis.API.Controllers
         {
             try
             {
-                var competitions = await _competitionService.GetAllCompetitionsAsync();
+                var competitions = await _competitionService.GetAllAsync();
                 return Ok(competitions);
             }
             catch
@@ -35,7 +35,7 @@ namespace FootballAnalysis.API.Controllers
         {
             try
             {
-                var competition = await _competitionService.GetCompetitionByIdAsync(id);
+                var competition = await _competitionService.GetByIdAsync(id);
                 if (competition == null)
                     return NotFound();
 
@@ -52,7 +52,7 @@ namespace FootballAnalysis.API.Controllers
         {
             try
             {
-                var createdCompetition = await _competitionService.CreateCompetitionAsync(competitionDto);
+                var createdCompetition = await _competitionService.CreateAsync(competitionDto);
                 return CreatedAtAction(nameof(GetCompetition), new { id = createdCompetition.Id }, createdCompetition);
             }
             catch
@@ -66,7 +66,7 @@ namespace FootballAnalysis.API.Controllers
         {
             try
             {
-                var updatedCompetition = await _competitionService.UpdateCompetitionAsync(id, competitionDto);
+                var updatedCompetition = await _competitionService.UpdateAsync(id, competitionDto);
                 if (updatedCompetition == null)
                     return NotFound();
 
@@ -83,7 +83,7 @@ namespace FootballAnalysis.API.Controllers
         {
             try
             {
-                var result = await _competitionService.DeleteCompetitionAsync(id);
+                var result = await _competitionService.DeleteAsync(id);
                 if (!result)
                     return NotFound();
 
