@@ -15,10 +15,11 @@ namespace FootballAnalysis.Data.Domain.Models
         public string Stadium { get; set; } = "";
 
         public string City { get; set; } = "";
+        public int FoundedYear { get; set; }
 
         public string Coach { get; set; } = "";
 
-        public string Captain { get; set; } = "";
+        public Player Captain { get; set; } = default!;
 
         public string PreferredFormation { get; set; } = "";
 
