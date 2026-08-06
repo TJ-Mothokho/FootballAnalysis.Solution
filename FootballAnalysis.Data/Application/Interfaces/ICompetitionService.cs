@@ -5,12 +5,13 @@ using System.Text;
 
 namespace FootballAnalysis.Data.Application.Interfaces
 {
-    public interface ICompetitionService
+    public interface ICompetitionService : IService<GetCompetitionDTO, CreateCompetitionDTO, UpdateCompetitionDTO>
     {
-        Task<IEnumerable<GetCompetitionDTO>> GetAllCompetitionsAsync();
-        Task<GetCompetitionDTO> GetCompetitionByIdAsync(Guid id);
-        Task<GetCompetitionDTO> CreateCompetitionAsync(CreateCompetitionDTO competitionDto);
-        Task<GetCompetitionDTO> UpdateCompetitionAsync(Guid id, UpdateCompetitionDTO competitionDto);
-        Task<bool> DeleteCompetitionAsync(Guid id);
+
+        //Task<IEnumerable<GetCompetitionDTO>> GetAllCompetitionsAsync();
+        //Task<GetCompetitionDTO> GetCompetitionByIdAsync(Guid id);
+        //Task<GetCompetitionDTO> CreateCompetitionAsync(CreateCompetitionDTO competitionDto);
+        //Task<GetCompetitionDTO> UpdateCompetitionAsync(Guid id, UpdateCompetitionDTO competitionDto);
+        //Task<bool> DeleteCompetitionAsync(Guid id);
     }
 }
