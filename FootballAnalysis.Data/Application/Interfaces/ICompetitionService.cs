@@ -1,17 +1,15 @@
-﻿using FootballAnalysis.Data.Application.DTOs.Competition;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FootballAnalysis.Data.Application.DTOs.Common;
+using FootballAnalysis.Data.Application.DTOs.Competition;
+using FootballAnalysis.Data.Application.DTOs.Match;
 
 namespace FootballAnalysis.Data.Application.Interfaces
 {
     public interface ICompetitionService : IService<GetCompetitionDTO, CreateCompetitionDTO, UpdateCompetitionDTO>
     {
-
-        //Task<IEnumerable<GetCompetitionDTO>> GetAllCompetitionsAsync();
-        //Task<GetCompetitionDTO> GetCompetitionByIdAsync(Guid id);
-        //Task<GetCompetitionDTO> CreateCompetitionAsync(CreateCompetitionDTO competitionDto);
-        //Task<GetCompetitionDTO> UpdateCompetitionAsync(Guid id, UpdateCompetitionDTO competitionDto);
-        //Task<bool> DeleteCompetitionAsync(Guid id);
+        Task<IEnumerable<StandingDTO>> GetStandingsAsync(Guid competitionId, Guid seasonId);
+        Task<IEnumerable<GetMatchDTO>> GetFixturesAsync(Guid competitionId);
+        Task<IEnumerable<GetMatchDTO>> GetResultsAsync(Guid competitionId);
+        Task<IEnumerable<PlayerLeaderDTO>> GetTopScorersAsync(Guid competitionId);
+        Task<CompetitionStatisticsDTO> GetStatisticsAsync(Guid competitionId);
     }
 }

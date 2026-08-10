@@ -6,6 +6,8 @@ namespace FootballAnalysis.Data.Domain.ValueObjects
 {
     public class MatchStats
     {
+        public int TeamGoals { get; set; }
+        public int OppositionGoals { get; set; }
         public int Possession { get; set; } = 0;
         public int Corners { get; set; } = 0;
         public int BigChances { get; set; } = 0;

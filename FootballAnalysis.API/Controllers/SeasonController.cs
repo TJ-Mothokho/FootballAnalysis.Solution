@@ -1,6 +1,9 @@
-﻿using FootballAnalysis.Data.Application.DTOs.Season;
+using FootballAnalysis.Data.Application.DTOs.Common;
+using FootballAnalysis.Data.Application.DTOs.Match;
+using FootballAnalysis.Data.Application.DTOs.Player;
+using FootballAnalysis.Data.Application.DTOs.Season;
+using FootballAnalysis.Data.Application.DTOs.Team;
 using FootballAnalysis.Data.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FootballAnalysis.API.Controllers
@@ -17,75 +20,41 @@ namespace FootballAnalysis.API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<GetSeasonDTO>>> GetSeasons()
-        {
-            try
-            {
-                var seasons = await _seasonService.GetAllAsync();
-                return Ok(seasons);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<IEnumerable<GetSeasonDTO>>> GetSeasons() => Ok(await _seasonService.GetAllAsync());
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<GetSeasonDTO>> GetSeason(Guid id)
-        {
-            try
-            {
-                var season = await _seasonService.GetByIdAsync(id);
-                if (season == null)
-                    return NotFound();
-                return Ok(season);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetSeasonDTO>> GetSeason(Guid id) => Ok(await _seasonService.GetByIdAsync(id));
 
         [HttpPost("create")]
         public async Task<ActionResult<GetSeasonDTO>> CreateSeason(CreateSeasonDTO seasonDto)
         {
-            try
-            {
-                var createdSeason = await _seasonService.CreateAsync(seasonDto);
-                return CreatedAtAction(nameof(GetSeason), new { id = createdSeason.Id }, createdSeason);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var createdSeason = await _seasonService.CreateAsync(seasonDto);
+            return CreatedAtAction(nameof(GetSeason), new { id = createdSeason.Id }, createdSeason);
         }
 
         [HttpPost("delete")]
         public async Task<ActionResult> DeleteSeason(Guid id)
         {
-            try
-            {
-                await _seasonService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _seasonService.DeleteAsync(id);
+            return NoContent();
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<GetSeasonDTO>> UpdateSeason(Guid id, UpdateSeasonDTO seasonDto)
-        {
-            try
-            {
-                var updatedSeason = await _seasonService.UpdateAsync(id, seasonDto);
-                return Ok(updatedSeason);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetSeasonDTO>> UpdateSeason(Guid id, UpdateSeasonDTO seasonDto) => Ok(await _seasonService.UpdateAsync(id, seasonDto));
+
+        [HttpGet("{id:Guid}/statistics")]
+        public async Task<ActionResult<GetSeasonStatisticsDTO>> GetSeasonStatistics(Guid id) => Ok(await _seasonService.GetSeasonStatisticsAsync(id));
+
+        [HttpGet("{id:Guid}/matches")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetSeasonMatches(Guid id) => Ok(await _seasonService.GetSeasonMatchesAsync(id));
+
+        [HttpGet("{id:Guid}/players")]
+        public async Task<ActionResult<IEnumerable<GetPlayerDTO>>> GetSeasonPlayers(Guid id) => Ok(await _seasonService.GetSeasonPlayersAsync(id));
+
+        [HttpGet("{id:Guid}/teams")]
+        public async Task<ActionResult<IEnumerable<GetTeamDTO>>> GetSeasonTeams(Guid id) => Ok(await _seasonService.GetSeasonTeamsAsync(id));
+
+        [HttpGet("{id:Guid}/leaders")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetSeasonLeaders(Guid id) => Ok(await _seasonService.GetSeasonLeadersAsync(id));
     }
 }

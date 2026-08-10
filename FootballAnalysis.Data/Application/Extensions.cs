@@ -22,6 +22,15 @@ namespace FootballAnalysis.Data.Application
         {
             // Services
             services.AddScoped<ICompetitionService, CompetitionService>();
+            services.AddScoped<ISeasonService, SeasonService>();
+            services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ITeamMatchStatsService, TeamMatchStatsService>();
+            services.AddScoped<IMatchService, MatchService>();
+            services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IPlayerMatchStatsService, PlayerMatchStatsService>();
+            services.AddScoped<ILeaderboardService, LeaderboardService>();
+            services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<ISearchService, SearchService>();
 
             // Validation
             services.AddScoped<IValidator<CreateCompetitionDTO>, CreateCompetitionValidator>();

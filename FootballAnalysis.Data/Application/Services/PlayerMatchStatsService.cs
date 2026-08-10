@@ -13,7 +13,7 @@ using System.Text;
 
 namespace FootballAnalysis.Data.Application.Services
 {
-    public class PlayerMatchStatsService : IService<GetPlayerMatchStatsDTO, CreatePlayerMatchStatsDTO, UpdatePlayerMatchStatsDTO>
+    public class PlayerMatchStatsService : IPlayerMatchStatsService
     {
         private readonly IPlayerMatchStatsRepository _playerMatchStatsRepository;
 

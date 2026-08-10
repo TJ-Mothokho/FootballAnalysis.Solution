@@ -1,7 +1,8 @@
-﻿using FootballAnalysis.Data.Application.DTOs.Match;
-using FootballAnalysis.Data.Application.DTOs.Team;
+using FootballAnalysis.Data.Application.DTOs.Common;
+using FootballAnalysis.Data.Application.DTOs.Match;
+using FootballAnalysis.Data.Application.DTOs.PlayerMatchStats;
+using FootballAnalysis.Data.Application.DTOs.TeamMatchStats;
 using FootballAnalysis.Data.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FootballAnalysis.API.Controllers
@@ -18,75 +19,59 @@ namespace FootballAnalysis.API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetMatches()
-        {
-            try
-            {
-                var matches = await _matchService.GetAllAsync();
-                return Ok(matches);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetMatches() => Ok(await _matchService.GetAllAsync());
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<GetMatchDTO>> GetMatch(Guid id)
-        {
-            try
-            {
-                var match = await _matchService.GetByIdAsync(id);
-                if (match == null)
-                    return NotFound();
-                return Ok(match);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetMatchDTO>> GetMatch(Guid id) => Ok(await _matchService.GetByIdAsync(id));
 
         [HttpPost("create")]
         public async Task<ActionResult<GetMatchDTO>> CreateMatch(CreateMatchDTO matchDto)
         {
-            try
-            {
-                var createdMatch = await _matchService.CreateAsync(matchDto);
-                return CreatedAtAction(nameof(GetMatch), new { id = createdMatch.Id }, createdMatch);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var createdMatch = await _matchService.CreateAsync(matchDto);
+            return CreatedAtAction(nameof(GetMatch), new { id = createdMatch.Id }, createdMatch);
         }
 
         [HttpPost("delete")]
         public async Task<ActionResult> DeleteMatch(Guid id)
         {
-            try
-            {
-                await _matchService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _matchService.DeleteAsync(id);
+            return NoContent();
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<GetMatchDTO>> UpdateMatch(Guid id, UpdateMatchDTO matchDto)
-        {
-            try
-            {
-                var updatedMatch = await _matchService.UpdateAsync(id, matchDto);
-                return Ok(updatedMatch);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetMatchDTO>> UpdateMatch(Guid id, UpdateMatchDTO matchDto) => Ok(await _matchService.UpdateAsync(id, matchDto));
+
+        [HttpGet("upcoming")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetUpcoming() => Ok(await _matchService.GetUpcomingAsync());
+
+        [HttpGet("completed")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetCompleted() => Ok(await _matchService.GetCompletedAsync());
+
+        [HttpGet("latest")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetLatest() => Ok(await _matchService.GetLatestAsync());
+
+        [HttpGet("today")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetToday() => Ok(await _matchService.GetTodayAsync());
+
+        [HttpGet("by-team/{teamId:Guid}")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetByTeam(Guid teamId) => Ok(await _matchService.GetByTeamAsync(teamId));
+
+        [HttpGet("by-competition/{competitionId:Guid}")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetByCompetition(Guid competitionId) => Ok(await _matchService.GetByCompetitionAsync(competitionId));
+
+        [HttpGet("by-season/{seasonId:Guid}")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetBySeason(Guid seasonId) => Ok(await _matchService.GetBySeasonAsync(seasonId));
+
+        [HttpGet("{id:Guid}/team-stats")]
+        public async Task<ActionResult<IEnumerable<GetTeamMatchStatsDTO>>> GetTeamStats(Guid id) => Ok(await _matchService.GetTeamStatsAsync(id));
+
+        [HttpGet("{id:Guid}/player-stats")]
+        public async Task<ActionResult<IEnumerable<GetPlayerMatchStatsDTO>>> GetPlayerStats(Guid id) => Ok(await _matchService.GetPlayerStatsAsync(id));
+
+        [HttpGet("{id:Guid}/summary")]
+        public async Task<ActionResult<MatchSummaryDTO>> GetSummary(Guid id) => Ok(await _matchService.GetSummaryAsync(id));
+
+        [HttpGet("{id:Guid}/workspace")]
+        public async Task<ActionResult<MatchWorkspaceDTO>> GetWorkspace(Guid id) => Ok(await _matchService.GetWorkspaceAsync(id));
     }
 }

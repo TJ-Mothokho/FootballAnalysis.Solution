@@ -1,7 +1,8 @@
-﻿using FootballAnalysis.Data.Application.DTOs.Season;
+using FootballAnalysis.Data.Application.DTOs.Common;
+using FootballAnalysis.Data.Application.DTOs.Match;
+using FootballAnalysis.Data.Application.DTOs.Player;
 using FootballAnalysis.Data.Application.DTOs.Team;
 using FootballAnalysis.Data.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FootballAnalysis.API.Controllers
@@ -18,75 +19,62 @@ namespace FootballAnalysis.API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<GetTeamDTO>>> GetTeams()
-        {
-            try
-            {
-                var teams = await _teamService.GetAllAsync();
-                return Ok(teams);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<IEnumerable<GetTeamDTO>>> GetTeams() => Ok(await _teamService.GetAllAsync());
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<GetTeamDTO>> GetTeam(Guid id)
-        {
-            try
-            {
-                var team = await _teamService.GetByIdAsync(id);
-                if (team == null)
-                    return NotFound();
-                return Ok(team);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetTeamDTO>> GetTeam(Guid id) => Ok(await _teamService.GetByIdAsync(id));
 
         [HttpPost("create")]
         public async Task<ActionResult<GetTeamDTO>> CreateTeam(CreateTeamDTO teamDto)
         {
-            try
-            {
-                var createdTeam = await _teamService.CreateAsync(teamDto);
-                return CreatedAtAction(nameof(GetTeam), new { id = createdTeam.Id }, createdTeam);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var createdTeam = await _teamService.CreateAsync(teamDto);
+            return CreatedAtAction(nameof(GetTeam), new { id = createdTeam.Id }, createdTeam);
         }
 
         [HttpPost("delete")]
         public async Task<ActionResult> DeleteTeam(Guid id)
         {
-            try
-            {
-                await _teamService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _teamService.DeleteAsync(id);
+            return NoContent();
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<GetTeamDTO>> UpdateTeam(Guid id, UpdateTeamDTO teamDto)
-        {
-            try
-            {
-                var updatedTeam = await _teamService.UpdateAsync(id, teamDto);
-                return Ok(updatedTeam);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        public async Task<ActionResult<GetTeamDTO>> UpdateTeam(Guid id, UpdateTeamDTO teamDto) => Ok(await _teamService.UpdateAsync(id, teamDto));
+
+        [HttpGet("{id:Guid}/matches")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetTeamMatches(Guid id) => Ok(await _teamService.GetMatchesAsync(id));
+
+        [HttpGet("{id:Guid}/players")]
+        public async Task<ActionResult<IEnumerable<GetPlayerDTO>>> GetTeamPlayers(Guid id) => Ok(await _teamService.GetPlayersAsync(id));
+
+        [HttpGet("{id:Guid}/fixtures")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetTeamFixtures(Guid id) => Ok(await _teamService.GetFixturesAsync(id));
+
+        [HttpGet("{id:Guid}/results")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetTeamResults(Guid id) => Ok(await _teamService.GetResultsAsync(id));
+
+        [HttpGet("{id:Guid}/last5")]
+        public async Task<ActionResult<IEnumerable<GetMatchDTO>>> GetTeamLast5Matches(Guid id) => Ok(await _teamService.GetLast5MatchesAsync(id));
+
+        [HttpGet("{id:Guid}/form")]
+        public async Task<ActionResult<IEnumerable<string>>> GetTeamForm(Guid id) => Ok(await _teamService.GetFormAsync(id));
+
+        [HttpGet("{id:Guid}/statistics")]
+        public async Task<ActionResult<GetTeamStatisticsDTO>> GetTeamStatistics(Guid id) => Ok(await _teamService.GetStatisticsAsync(id));
+
+        [HttpGet("{id:Guid}/top-scorers")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetTeamTopScorers(Guid id) => Ok(await _teamService.GetTopScorersAsync(id));
+
+        [HttpGet("{id:Guid}/top-assists")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetTeamTopAssists(Guid id) => Ok(await _teamService.GetTopAssistsAsync(id));
+
+        [HttpGet("{id:Guid}/top-rated")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetTeamTopRated(Guid id) => Ok(await _teamService.GetTopRatedAsync(id));
+
+        [HttpGet("{id:Guid}/most-passes")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetTeamMostPasses(Guid id) => Ok(await _teamService.GetMostPassesAsync(id));
+
+        [HttpGet("{id:Guid}/most-minutes")]
+        public async Task<ActionResult<IEnumerable<PlayerLeaderDTO>>> GetTeamMostMinutes(Guid id) => Ok(await _teamService.GetMostMinutesAsync(id));
     }
 }

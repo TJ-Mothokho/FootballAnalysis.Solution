@@ -26,6 +26,7 @@ namespace FootballAnalysis.Data.Domain.Models
         public bool WasSubstitutedOn { get; set; }
 
         public bool WasSubstitutedOff { get; set; }
+        public int MinutesPlayed { get; set; }
 
         public bool IsCaptain { get; set; }
 
