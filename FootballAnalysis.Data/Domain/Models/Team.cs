@@ -19,7 +19,8 @@ namespace FootballAnalysis.Data.Domain.Models
 
         public string Coach { get; set; } = "";
 
-        public Player Captain { get; set; } = default!;
+        public Guid? CaptainId { get; set; }
+        public Player? Captain { get; set; } = default!;
 
         public string PreferredFormation { get; set; } = "";
 
